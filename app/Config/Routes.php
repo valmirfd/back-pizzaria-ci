@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\Api\V1\CategoriasController;
+use App\Controllers\Api\V1\ProdutosController;
 use CodeIgniter\Router\RouteCollection;
 
 /**
@@ -14,4 +15,9 @@ $routes->group('api', ['namespace' => ''], static function ($routes) {
     $routes->resource('categorias', ['controller' => CategoriasController::class, 'except' => 'new,edit']);
     $routes->options('categorias', static function () {});
     $routes->options('categorias/(:any)', static function () {});
+
+    //Produtos
+    $routes->resource('produtos', ['controller' => ProdutosController::class, 'except' => 'new,edit']);
+    $routes->options('produtos', static function () {});
+    $routes->options('produtos/(:any)', static function () {});
 });
