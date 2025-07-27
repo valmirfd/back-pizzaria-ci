@@ -3,6 +3,7 @@
 namespace App\Controllers\Api\V1;
 
 use App\Models\CategoriaModel;
+use App\Validation\CategoriaValidation;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 
@@ -31,7 +32,14 @@ class CategoriasController extends ResourceController
      */
     public function show($id = null)
     {
-        //
+        $categoria = $this->model->asObject()->find($id);
+
+        if ($categoria === null) {
+
+            return $this->failNotFound(code: ResponseInterface::HTTP_NOT_FOUND);
+        }
+
+        return $this->respond(data: $categoria, status: ResponseInterface::HTTP_OK);
     }
 
     /**
@@ -51,7 +59,20 @@ class CategoriasController extends ResourceController
      */
     public function create()
     {
-        //
+        $rules = (new CategoriaValidation)->getRules();
+
+        if (!$this->validate($rules)) {
+
+            return $this->failValidationErrors($this->validator->getErrors());
+        }
+
+        $inputRequest = esc($this->request->getJSON(assoc: true));
+
+        $id = $this->model->insert($inputRequest);
+
+        $categoriaCreated = $this->model->find($id);
+
+        return $this->respondCreated(data: $categoriaCreated);
     }
 
     /**
@@ -75,7 +96,21 @@ class CategoriasController extends ResourceController
      */
     public function update($id = null)
     {
-        //
+
+        $rules = (new CategoriaValidation)->getRules($id);
+
+        if (!$this->validate($rules)) {
+
+            return $this->failValidationErrors($this->validator->getErrors());
+        }
+
+        $inputRequest = esc($this->request->getJSON(assoc: true));
+
+        $this->model->update($id, $inputRequest);
+
+        $categoria = $this->model->find($id);
+
+        return $this->respondUpdated(data: $categoria);
     }
 
     /**
@@ -87,6 +122,14 @@ class CategoriasController extends ResourceController
      */
     public function delete($id = null)
     {
-        //
+        $categoria = $this->model->find($id);
+
+        if ($categoria === null) {
+            return $this->failNotFound(code: ResponseInterface::HTTP_NOT_FOUND);
+        }
+
+        $this->model->delete($id);
+
+        return $this->respondDeleted();
     }
 }
