@@ -107,6 +107,14 @@ class ProdutosController extends ResourceController
      */
     public function delete($id = null)
     {
-        //
+         $produto = $this->model->find($id);
+
+        if ($produto === null) {
+            return $this->failNotFound(code: ResponseInterface::HTTP_NOT_FOUND);
+        }
+
+        $this->model->delete($id);
+
+        return $this->respondDeleted();
     }
 }
