@@ -19,7 +19,7 @@ class ProdutosController extends ResourceController
      */
     public function index()
     {
-        return $this->respond($this->model->findAll());
+        return $this->respond($this->model->listarProdutos());
     }
 
     /**
@@ -31,7 +31,7 @@ class ProdutosController extends ResourceController
      */
     public function show($id = null)
     {
-        $produto = $this->model->asObject()->find($id);
+        $produto = $this->model->find($id);
 
         if ($produto === null) {
 
