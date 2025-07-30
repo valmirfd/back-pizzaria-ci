@@ -2,7 +2,9 @@
 
 namespace App\Controllers\Api\V1;
 
+use App\Entities\Produto;
 use App\Models\ProdutoModel;
+use App\Services\ImageService;
 use App\Validation\ProdutoValidation;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
@@ -31,7 +33,7 @@ class ProdutosController extends ResourceController
      */
     public function show($id = null)
     {
-        $produto = $this->model->find($id);
+        $produto = $this->model->produtoID($id);
 
         if ($produto === null) {
 
@@ -60,18 +62,29 @@ class ProdutosController extends ResourceController
     {
         $rules = (new ProdutoValidation)->getRules();
 
+
         if (!$this->validate($rules)) {
 
             return $this->failValidationErrors($this->validator->getErrors());
         }
 
-        $inputRequest =  esc($this->request->getVar());
+        $produto = new Produto($this->request->getVar());
 
-        $id = $this->model->insert($inputRequest);
+        // upload image
+        $images = $this->request->getFiles('images');
+        //$final_file_name = prefixed_product_file_name($file_image->getName());
+        //$file_image->move(ROOTPATH . 'public/assets/images/products', $final_file_name, true);
 
-        $produtoCreated = $this->model->find($id);
+        $this->model->salvar($produto);
 
-        return $this->respondCreated(data: $produtoCreated);
+        $id = $this->model->getInsertID();
+
+        $dataImages = ImageService::storeImages($images, 'produtos', 'produto_id', $id);
+
+        $this->model->salvarImagens($dataImages);
+
+
+        return $this->respondCreated(data: $produto);
     }
 
     /**
@@ -107,7 +120,7 @@ class ProdutosController extends ResourceController
      */
     public function delete($id = null)
     {
-         $produto = $this->model->find($id);
+        $produto = $this->model->find($id);
 
         if ($produto === null) {
             return $this->failNotFound(code: ResponseInterface::HTTP_NOT_FOUND);
