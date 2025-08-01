@@ -5,6 +5,7 @@ namespace App\Controllers\Api\V1;
 use App\Entities\Produto;
 use App\Models\ProdutoModel;
 use App\Services\ImageService;
+use App\Validation\ImageProdutoValidation;
 use App\Validation\ProdutoValidation;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
@@ -21,7 +22,7 @@ class ProdutosController extends ResourceController
      */
     public function index()
     {
-        return $this->respond($this->model->listarProdutos());
+        return $this->respond($this->model->asObject()->listarProdutos());
     }
 
     /**
@@ -33,7 +34,7 @@ class ProdutosController extends ResourceController
      */
     public function show($id = null)
     {
-        $produto = $this->model->produtoID($id);
+        $produto = $this->model->asObject()->produtoID($id);
 
         if ($produto === null) {
 
@@ -64,7 +65,6 @@ class ProdutosController extends ResourceController
 
 
         if (!$this->validate($rules)) {
-
             return $this->failValidationErrors($this->validator->getErrors());
         }
 

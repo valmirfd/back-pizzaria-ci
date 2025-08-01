@@ -2,21 +2,17 @@
 
 namespace App\Validation;
 
-class ImageValidation
+class ImageProdutoValidation
 {
     public function getRules(): array
     {
         return [
-            'id' => [
-                'label' => 'Id',
-                'rules' => 'permit_empty|is_natural_no_zero'
-            ],
-            'file_image' => [
+            'images' => [
                 'label' => 'imagem do produto',
                 'rules' => [
-                    'uploaded[file_image]',
-                    'mime_in[file_image,image/jpg,image/jpeg,image/png,image/webp]',
-                    'max_size[file_image,2048]',
+                    'uploaded[images]',
+                    'mime_in[images,image/jpg,image/jpeg,image/png,image/webp]',
+                    'max_size[images,2048]',
                     'max_dims[images,1920,1200]'
                 ],
                 'errors' => [
@@ -26,6 +22,7 @@ class ImageValidation
                     'max_dims' => 'O campo {field} deve ter a dimenção máxima de 1920x1200',
                 ]
             ],
+
 
         ];
     }
