@@ -120,13 +120,29 @@ class ProdutosController extends ResourceController
      */
     public function delete($id = null)
     {
-        $produto = $this->model->find($id);
+        try {
 
-        if ($produto === null) {
-            return $this->failNotFound(code: ResponseInterface::HTTP_NOT_FOUND);
+            $produto = $this->model->asObject()->produtoID($id);
+
+            if ($produto === null) {
+                return $this->failNotFound(code: ResponseInterface::HTTP_NOT_FOUND);
+            }
+
+            $nomeImagem = [];
+
+            foreach ($produto->images as $key => $imagem) {
+
+                $nomeImagem[] = $imagem->image;
+
+                //Aqui exclui todas as imagens do produto no file system
+                ImageService::destroyImage('produtos', $nomeImagem[$key]);
+            }
+
+            //Aqui exclui o produto no Banco de dados
+            $this->model->delete($id);
+        } catch (\Exception $e) {
+            die('Erro ao excluir imagens!');
         }
-
-        $this->model->delete($id);
 
         return $this->respondDeleted();
     }

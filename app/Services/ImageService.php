@@ -56,7 +56,13 @@ class ImageService
         exit;
     }
 
-
+    /**
+     * Método responsável em excluir imagens no file sytem
+     *
+     * @param string $pathToImage
+     * @param string $imageToDestroy
+     * @return void
+     */
     public static function destroyImage(string $pathToImage, string $imageToDestroy)
     {
         $regularImageToDestroy  = WRITEPATH . "uploads/{$pathToImage}/{$imageToDestroy}";
