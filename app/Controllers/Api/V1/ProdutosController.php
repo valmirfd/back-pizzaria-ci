@@ -7,6 +7,7 @@ use App\Models\ProdutoModel;
 use App\Services\ImageService;
 use App\Validation\ImageProdutoValidation;
 use App\Validation\ProdutoValidation;
+use CodeIgniter\HTTP\ResponsableInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 
@@ -79,6 +80,20 @@ class ProdutosController extends ResourceController
         $images = $this->request->getFiles('images');
         //$final_file_name = prefixed_product_file_name($file_image->getName());
         //$file_image->move(ROOTPATH . 'public/assets/images/products', $final_file_name, true);
+
+
+        // Contamos o número de imagens que estão vindo no post
+        $quantidadeImagensPost = count(array_filter($_FILES['images']['name']));
+
+        if ($quantidadeImagensPost > 3) {
+
+            return $this->respond(
+                [
+                    'code'      => 401,
+                    'message'   => 'Escolha apenas 3 imagens.'
+                ]
+            );
+        }
 
         $this->model->salvar($produto);
 

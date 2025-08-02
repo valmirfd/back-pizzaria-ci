@@ -143,4 +143,9 @@ class ProdutoModel extends MyBaseModel
             die('Erro ao excluir dados!');
         }
     }
+
+    public function getImagesProduct(int $produtoID): array
+    {
+        return $this->db->table('produtos_images')->where('produto_id', $produtoID)->get()->getResult();
+    }
 }
