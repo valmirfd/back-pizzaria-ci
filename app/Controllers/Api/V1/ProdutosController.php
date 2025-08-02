@@ -75,12 +75,8 @@ class ProdutosController extends ResourceController
         }
 
         $produto = new Produto($this->request->getVar());
-
-        // upload image
+   
         $images = $this->request->getFiles('images');
-        //$final_file_name = prefixed_product_file_name($file_image->getName());
-        //$file_image->move(ROOTPATH . 'public/assets/images/products', $final_file_name, true);
-
 
         // Contamos o número de imagens que estão vindo no post
         $quantidadeImagensPost = count(array_filter($_FILES['images']['name']));

@@ -32,7 +32,7 @@ class Produto extends Entity
             return $this->handleWithSingleImage($classImage, $sizeImage);
         }
 
-        if (url_is('api/adverts*')) {
+        if (url_is('api/produtos*')) {
 
             return $this->handleWithImagesForAPI();
         }
