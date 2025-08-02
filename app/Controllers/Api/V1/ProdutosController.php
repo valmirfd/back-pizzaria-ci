@@ -63,6 +63,11 @@ class ProdutosController extends ResourceController
     {
         $rules = (new ProdutoValidation)->getRules();
 
+        if (!$this->validate($rules)) {
+            return $this->failValidationErrors($this->validator->getErrors());
+        }
+
+        $rules = (new ImageProdutoValidation)->getRules();
 
         if (!$this->validate($rules)) {
             return $this->failValidationErrors($this->validator->getErrors());
@@ -82,7 +87,6 @@ class ProdutosController extends ResourceController
         $dataImages = ImageService::storeImages($images, 'produtos', 'produto_id', $id);
 
         $this->model->salvarImagens($dataImages);
-
 
         return $this->respondCreated(data: $produto);
     }
@@ -108,7 +112,28 @@ class ProdutosController extends ResourceController
      */
     public function update($id = null)
     {
-        //
+        $produto = $this->model->produtoID($id);
+
+        if ($produto === null) {
+
+            return $this->failNotFound(code: ResponseInterface::HTTP_NOT_FOUND);
+        }
+
+        $inputRequest = esc($this->request->getJSON(assoc: true));
+
+        $produto->fill($inputRequest);
+
+        $rules = (new ProdutoValidation)->getRules($id);
+
+        if (!$this->validate($rules)) {
+            return $this->failValidationErrors($this->validator->getErrors());
+        }
+
+        $this->model->salvar($produto);
+
+        $produto = (object) $produto;
+
+        return $this->respond($produto, status: ResponseInterface::HTTP_OK);
     }
 
     /**
@@ -144,6 +169,6 @@ class ProdutosController extends ResourceController
             die('Erro ao excluir imagens!');
         }
 
-        return $this->respondDeleted();
+        return $this->respond(data: $produto, status: ResponseInterface::HTTP_OK);
     }
 }

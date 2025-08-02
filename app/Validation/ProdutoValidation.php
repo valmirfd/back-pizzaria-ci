@@ -40,7 +40,7 @@ class ProdutoValidation
                     'required' => 'Digite o {field}',
                 ],
             ],
-            'images' => [
+            /*'images' => [
                 'label' => 'imagem do produto',
                 'rules' => [
                     'uploaded[images]',
@@ -54,7 +54,7 @@ class ProdutoValidation
                     'max_size' => 'O campo {field} deve ter no máximo 200KB',
                     'max_dims' => 'O campo {field} deve ter a dimenção máxima de 1920x1200',
                 ]
-            ],
+            ],*/
 
 
         ];
