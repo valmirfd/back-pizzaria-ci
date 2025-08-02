@@ -76,6 +76,48 @@ class ImagesProductsController extends BaseController
         );
     }
 
+    public function addImagesProduct($id = null)
+    {
+        $rules = (new ImageProdutoValidation)->getRules();
+
+        if (!$this->validate($rules)) {
+            return $this->failValidationErrors($this->validator->getErrors());
+        }
+
+        $produto = $this->produtoModel->asObject()->produtoID($id);
+
+        if ($produto === null) {
+            return $this->failNotFound(code: ResponseInterface::HTTP_NOT_FOUND);
+        }
+
+
+        $resultadoTotalImagens = $this->defineQuantidadeImagens($produto->id);
+
+
+        if ($resultadoTotalImagens['totalImagens'] > 3) {
+
+            return $this->respond(
+                [
+                    'code'      => 401,
+                    'message'   => ["O produto pode ter no máximo 3 imagens. Ele já possui " . $resultadoTotalImagens['existentes']]
+                ]
+            );
+        }
+
+        $imagens = $this->request->getFiles('images');
+
+        $dataImages = ImageService::storeImages($imagens, 'produtos', 'produto_id', $produto->id);
+
+        $this->produtoModel->salvarImagens($dataImages);
+
+        return $this->respond(
+            [
+                'code'      => 200,
+                'message'   => 'Imagem adicionada com sucesso!'
+            ]
+        );
+    }
+
     public function excluirImageProduto(int $produtoID, $image = null)
     {
 
@@ -88,9 +130,9 @@ class ImagesProductsController extends BaseController
                 return $this->failNotFound(code: ResponseInterface::HTTP_NOT_FOUND);
             }
 
-            $existentes = $this->produtoImageModel->where('produto_id', $produto->id)->countAllResults();
+            $qtdImages = $this->produtoImageModel->where('produto_id', $produto->id)->countAllResults();
 
-            if ( $existentes == 1) {
+            if ($qtdImages == 1) {
 
                 return $this->respond(
                     [
@@ -115,9 +157,6 @@ class ImagesProductsController extends BaseController
             ]
         );
     }
-
-
-
 
 
     private function defineQuantidadeImagens(int $produto_id): array
