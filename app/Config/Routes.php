@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\Api\V1\CategoriasController;
+use App\Controllers\Api\V1\ImagesProductsController;
 use App\Controllers\Api\V1\ProdutosController;
 use CodeIgniter\Router\RouteCollection;
 
@@ -20,4 +21,14 @@ $routes->group('api', ['namespace' => ''], static function ($routes) {
     $routes->resource('produtos', ['controller' => ProdutosController::class, 'except' => 'new,edit']);
     $routes->options('produtos', static function () {});
     $routes->options('produtos/(:any)', static function () {});
+
+    $routes->group('', ['namespace' => 'App\Controllers\Api\V1'], static function ($routes) {
+
+        $routes->group('produtos-images', ['namespace' => 'App\Controllers\Api\V1'], static function ($routes) {
+
+            $routes->post('edit/(:num)', [ImagesProductsController::class, 'editarImagensProduto']);
+
+            //$routes->post('edit', 'AdvertsUserController::editarImagensProduto'); 
+        });
+    });
 });
