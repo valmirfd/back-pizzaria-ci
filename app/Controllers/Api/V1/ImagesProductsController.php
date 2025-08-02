@@ -24,10 +24,7 @@ class ImagesProductsController extends BaseController
         $this->produtoImageModel = Factories::models(ProdutoImageModel::class);
     }
 
-    public function index()
-    {
-        //
-    }
+
 
     public function editarImagensProduto($id = null)
     {
@@ -78,6 +75,48 @@ class ImagesProductsController extends BaseController
             ]
         );
     }
+
+    public function excluirImageProduto(int $produtoID, $image = null)
+    {
+
+        try {
+
+            $produto = $this->produtoModel->asObject()->find($produtoID);
+
+
+            if ($produto === null) {
+                return $this->failNotFound(code: ResponseInterface::HTTP_NOT_FOUND);
+            }
+
+            $existentes = $this->produtoImageModel->where('produto_id', $produto->id)->countAllResults();
+
+            if ( $existentes == 1) {
+
+                return $this->respond(
+                    [
+                        'code'      => 401,
+                        'message'   => 'O produto deve ter pelo menos uma imagem.'
+                    ]
+                );
+            }
+
+            $this->produtoModel->tryDeleteProdutoImage($produto->id, $image);
+
+            ImageService::destroyImage('produtos', $image);
+        } catch (\Exception $e) {
+
+            die('Erro ao excluir imagem!');
+        }
+
+        return $this->respond(
+            [
+                'code'      => 200,
+                'message'   => 'Imagem excluída com sucesso!'
+            ]
+        );
+    }
+
+
 
 
 

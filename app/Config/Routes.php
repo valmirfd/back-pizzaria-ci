@@ -27,8 +27,7 @@ $routes->group('api', ['namespace' => ''], static function ($routes) {
         $routes->group('produtos-images', ['namespace' => 'App\Controllers\Api\V1'], static function ($routes) {
 
             $routes->post('edit/(:num)', [ImagesProductsController::class, 'editarImagensProduto']);
-
-            //$routes->post('edit', 'AdvertsUserController::editarImagensProduto'); 
+            $routes->delete('excluir/(:num)/(:any)', [ImagesProductsController::class, 'excluirImageProduto']);
         });
     });
 });
