@@ -48,7 +48,7 @@ class RegisterController extends ShieldRegisterController
         return $this->respondCreated([
             'id' => $user->id,
             'name' => $user->username,
-            'token' => $jwt
+            'token' => $jwt,
         ]);
     }
 }

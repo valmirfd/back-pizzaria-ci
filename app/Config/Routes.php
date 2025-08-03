@@ -3,6 +3,7 @@
 use App\Controllers\Api\V1\CategoriasController;
 use App\Controllers\Api\V1\ImagesProductsController;
 use App\Controllers\Api\V1\ItemsController;
+use App\Controllers\Api\V1\LoginController;
 use App\Controllers\Api\V1\OrdersController;
 use App\Controllers\Api\V1\ProdutosController;
 use App\Controllers\Api\V1\RegisterController;
@@ -24,9 +25,9 @@ $routes->group('api', ['namespace' => ''], static function ($routes) {
     $routes->options('register/(:any)', static function () {});
 
     //Rotas para Login
-    /*$routes->post('login', [LoginController::class, 'create']);
+    $routes->post('login', [LoginController::class, 'create']);
     $routes->options('login', static function () {});
-    $routes->options('login/(:any)', static function () {});*/
+    $routes->options('login/(:any)', static function () {});
 
     $routes->group('', ['filter' => 'jwt'], static function ($routes) {
         //Categorias
