@@ -2,6 +2,7 @@
 
 use App\Controllers\Api\V1\CategoriasController;
 use App\Controllers\Api\V1\ImagesProductsController;
+use App\Controllers\Api\V1\ItemsController;
 use App\Controllers\Api\V1\OrdersController;
 use App\Controllers\Api\V1\ProdutosController;
 use CodeIgniter\Router\RouteCollection;
@@ -41,7 +42,7 @@ $routes->group('api', ['namespace' => ''], static function ($routes) {
     $routes->options('orders/(:any)', static function () {});
 
     //Itens
-    $routes->resource('items', ['controller' => OrdersController::class, 'except' => 'new,edit']);
+    $routes->resource('items', ['controller' => ItemsController::class, 'except' => 'new,edit']);
     $routes->options('items', static function () {});
     $routes->options('items/(:any)', static function () {});
 });

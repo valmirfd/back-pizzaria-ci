@@ -44,9 +44,8 @@ class CreateTableItems extends Migration
         // primary key
         $this->forge->addKey('id', true);
 
-
-        $this->forge->addForeignKey('order_id', 'orders', 'id', 'CASCADE', 'CASCADE');
-        $this->forge->addForeignKey('product_id', 'produtos', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('order_id', 'orders', 'id');
+        $this->forge->addForeignKey('product_id', 'produtos', 'id');
 
         // create table
         $this->forge->createTable('items');

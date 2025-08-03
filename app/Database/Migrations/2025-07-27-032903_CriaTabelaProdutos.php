@@ -53,7 +53,7 @@ class CriaTabelaProdutos extends Migration
         $this->forge->addKey('category_id');
         $this->forge->addKey('nome');
 
-        $this->forge->addForeignKey('category_id', 'categorias', 'id', 'SET NULL', 'SET NULL');
+        $this->forge->addForeignKey('category_id', 'categorias', 'id');
 
         // create table
         $this->forge->createTable('produtos');
