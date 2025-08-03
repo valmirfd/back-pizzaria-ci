@@ -12,7 +12,12 @@ class OrderModel extends Model
     protected $returnType       = 'object';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'table',
+        'status',
+        'draft',
+        'nome',
+    ];
 
     protected bool $allowEmptyInserts = true;
     protected bool $updateOnlyChanged = true;
