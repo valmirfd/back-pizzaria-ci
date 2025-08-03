@@ -108,6 +108,19 @@ class ItemsController extends ResourceController
      */
     public function delete($id = null)
     {
-        //
+        try {
+
+            $item = $this->model->find($id);
+
+            if ($item === null) {
+                return $this->failNotFound(code: ResponseInterface::HTTP_NOT_FOUND);
+            }
+           
+            $this->model->delete($id);
+        } catch (\Exception $e) {
+            die('Erro ao excluir imagens!');
+        }
+
+        return $this->respond(data: $item, status: ResponseInterface::HTTP_OK);
     }
 }
