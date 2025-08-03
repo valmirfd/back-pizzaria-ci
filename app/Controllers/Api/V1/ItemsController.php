@@ -3,6 +3,7 @@
 namespace App\Controllers\Api\V1;
 
 use App\Models\ItemModel;
+use App\Models\ProdutoModel;
 use App\Validation\ItemValidation;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;

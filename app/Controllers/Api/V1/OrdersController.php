@@ -2,7 +2,9 @@
 
 namespace App\Controllers\Api\V1;
 
+use App\Models\ItemModel;
 use App\Models\OrderModel;
+use App\Models\ProdutoModel;
 use App\Validation\OrderEditValidation;
 use App\Validation\OrderValidation;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -35,9 +37,11 @@ class OrdersController extends ResourceController
         $order = $this->model->asObject()->find($id);
 
         if ($order === null) {
-
             return $this->failNotFound(code: ResponseInterface::HTTP_NOT_FOUND);
         }
+
+        $order->products = model(ProdutoModel::class)->asObject()->where('id', $order->id)->findAll();
+        $order->items = model(ItemModel::class)->where('order_id', $order->id)->findAll();
 
         return $this->respond(data: $order, status: ResponseInterface::HTTP_OK);
     }
@@ -112,13 +116,14 @@ class OrdersController extends ResourceController
 
         $order->status = $inputRequest['status'];
 
-        if ($order->status == 1) {
-            $order->draft = 0;
+        if ($order->status == '1') {
+            $order->draft = '0';
         } else {
-            $order->draft = 1;
+            $order->status = '0';
+            $order->draft = '1';
         }
 
-        $this->model->update($id, $inputRequest);
+        $this->model->update($id, $order);
 
 
         return $this->respondUpdated(data: $order);
