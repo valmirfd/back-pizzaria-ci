@@ -5,9 +5,9 @@ use App\Controllers\Api\V1\ImagesProductsController;
 use App\Controllers\Api\V1\ItemsController;
 use App\Controllers\Api\V1\OrdersController;
 use App\Controllers\Api\V1\ProdutosController;
+use App\Controllers\Api\V1\RegisterController;
 use CodeIgniter\Router\RouteCollection;
-use CodeIgniter\Shield\Controllers\LoginController;
-use CodeIgniter\Shield\Controllers\RegisterController;
+
 
 /**
  * @var RouteCollection $routes
@@ -24,9 +24,9 @@ $routes->group('api', ['namespace' => ''], static function ($routes) {
     $routes->options('register/(:any)', static function () {});
 
     //Rotas para Login
-    $routes->post('login', [LoginController::class, 'create']);
+    /*$routes->post('login', [LoginController::class, 'create']);
     $routes->options('login', static function () {});
-    $routes->options('login/(:any)', static function () {});
+    $routes->options('login/(:any)', static function () {});*/
 
     $routes->group('', ['filter' => 'jwt'], static function ($routes) {
         //Categorias
