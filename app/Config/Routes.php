@@ -7,6 +7,7 @@ use App\Controllers\Api\V1\LoginController;
 use App\Controllers\Api\V1\OrdersController;
 use App\Controllers\Api\V1\ProdutosController;
 use App\Controllers\Api\V1\RegisterController;
+use App\Controllers\Api\V1\UserController;
 use CodeIgniter\Router\RouteCollection;
 
 
@@ -60,5 +61,10 @@ $routes->group('api', ['namespace' => ''], static function ($routes) {
         $routes->resource('items', ['controller' => ItemsController::class, 'except' => 'new,edit']);
         $routes->options('items', static function () {});
         $routes->options('items/(:any)', static function () {});
+
+        //Rotas para usuários
+        $routes->get('user', [UserController::class, 'index']);
+        $routes->options('user', static function () {});
+        $routes->options('user/(:any)', static function () {});
     });
 });
