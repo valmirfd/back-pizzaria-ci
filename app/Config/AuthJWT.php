@@ -39,7 +39,7 @@ class AuthJWT extends ShieldAuthJWT
      * @var array<string, string>
      */
     public array $defaultClaims = [
-        'iss' => 'http://back-pizzaria-ci.test/',
+        'iss' => 'http://localhost:8080/',
     ];
 
     /**
