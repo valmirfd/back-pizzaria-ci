@@ -30,8 +30,8 @@ defined('COMPOSER_PATH') || define('COMPOSER_PATH', ROOTPATH . 'vendor/autoload.
  | Timing Constants
  |--------------------------------------------------------------------------
  |
- | Provide simple ways to work with the myriad of PHP functions that
- | require information to be in seconds.
+ | Fornece maneiras simples de trabalhar com a miríade de funções PHP que
+ | exigem que as informações sejam fornecidas em segundos.
  */
 defined('SECOND') || define('SECOND', 1);
 defined('MINUTE') || define('MINUTE', 60);
