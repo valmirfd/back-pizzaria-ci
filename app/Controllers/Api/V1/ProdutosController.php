@@ -86,7 +86,7 @@ class ProdutosController extends ResourceController
             return $this->respond(
                 [
                     'code'      => 401,
-                    'message'   => 'Escolha apenas 3 imagens.'
+                    'message'   => 'Escolha no máximo 3 imagens.'
                 ]
             );
         }

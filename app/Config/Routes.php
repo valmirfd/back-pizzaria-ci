@@ -6,6 +6,7 @@ use App\Controllers\Api\V1\ItemsController;
 use App\Controllers\Api\V1\LoginController;
 use App\Controllers\Api\V1\OrdersController;
 use App\Controllers\Api\V1\ProdutosController;
+use App\Controllers\Api\V1\ProdutoSuportController;
 use App\Controllers\Api\V1\RegisterController;
 use App\Controllers\Api\V1\UserController;
 use CodeIgniter\Router\RouteCollection;
@@ -30,6 +31,8 @@ $routes->group('api', ['namespace' => ''], static function ($routes) {
     $routes->options('login', static function () {});
     $routes->options('login/(:any)', static function () {});
 
+
+
     $routes->group('', ['filter' => 'jwt'], static function ($routes) {
         //Categorias
         $routes->resource('categorias', ['controller' => CategoriasController::class, 'except' => 'new,edit']);
@@ -40,6 +43,9 @@ $routes->group('api', ['namespace' => ''], static function ($routes) {
         $routes->resource('produtos', ['controller' => ProdutosController::class, 'except' => 'new,edit']);
         $routes->options('produtos', static function () {});
         $routes->options('produtos/(:any)', static function () {});
+
+        $routes->get('products-by-category/(:num)', [ProdutoSuportController::class, 'getProdutosPorCategorias']);
+
         $routes->group('', ['namespace' => 'App\Controllers\Api\V1'], static function ($routes) {
             $routes->group('produtos-images', ['namespace' => 'App\Controllers\Api\V1'], static function ($routes) {
                 $routes->options('produtos-images', static function () {});
@@ -51,6 +57,8 @@ $routes->group('api', ['namespace' => ''], static function ($routes) {
                 $routes->options('excluir/(:num)/(:any)', static function () {});
             });
         });
+
+
 
         //Ordens
         $routes->resource('orders', ['controller' => OrdersController::class, 'except' => 'new,edit']);

@@ -84,6 +84,31 @@ class ProdutoModel extends MyBaseModel
         return $produto;
     }
 
+    public function produtosByCategory(int $categoryID)
+    {
+
+        $builder = $this;
+
+        $tableFields = [
+            'produtos.*'
+        ];
+
+        $builder->select($tableFields);
+        $produtos = $builder->where('category_id', $categoryID)->findAll();
+
+
+        if (!empty($produtos)) {
+
+            foreach ($produtos as $produto) {
+
+                $produto->images = $this->getProdutoImages($produto->id);
+            }
+        }
+
+        // Retornamos o produto que pode ou não ter imagens
+        return $produtos;
+    }
+
     public function getProdutoImages(int $produtoID): array
     {
         return $this->db->table('produtos_images')->where('produto_id', $produtoID)->get()->getResult();
