@@ -32,8 +32,10 @@ class CorsFilter implements FilterInterface
 
         $origin = $request->getHeaderLine('Origin');
 
-        $allowedOrigins = [
+        $allowedOrigins = [//192.168.18.10 - http://192.168.18.10:3000/
+            'http://192.168.18.10:3000',
             'http://192.168.18.1:3000',
+            'http://localhost:8080/api/'
         ];
 
         if (in_array($origin, $allowedOrigins)) {
