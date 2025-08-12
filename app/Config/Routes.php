@@ -4,6 +4,7 @@ use App\Controllers\Api\V1\CategoriasController;
 use App\Controllers\Api\V1\ImagesProductsController;
 use App\Controllers\Api\V1\ItemsController;
 use App\Controllers\Api\V1\LoginController;
+use App\Controllers\Api\V1\OrdensSuportController;
 use App\Controllers\Api\V1\OrdersController;
 use App\Controllers\Api\V1\ProdutosController;
 use App\Controllers\Api\V1\ProdutoSuportController;
@@ -30,7 +31,6 @@ $routes->group('api', ['namespace' => ''], static function ($routes) {
     $routes->post('login', [LoginController::class, 'create']);
     $routes->options('login', static function () {});
     $routes->options('login/(:any)', static function () {});
-
 
 
     $routes->group('', ['filter' => 'jwt'], static function ($routes) {
@@ -64,6 +64,8 @@ $routes->group('api', ['namespace' => ''], static function ($routes) {
         $routes->resource('orders', ['controller' => OrdersController::class, 'except' => 'new,edit']);
         $routes->options('orders', static function () {});
         $routes->options('orders/(:any)', static function () {});
+
+        $routes->put('order-send/(:num)', [OrdensSuportController::class, 'fecharPedido']);
 
         //Itens
         $routes->resource('items', ['controller' => ItemsController::class, 'except' => 'new,edit']);

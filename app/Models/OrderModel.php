@@ -36,4 +36,14 @@ class OrderModel extends Model
     protected $allowCallbacks = true;
     protected $beforeInsert   = [];
     protected $beforeUpdate   = [];
+
+
+
+    public function getOrdersOpen()
+    {
+        return $this->where('draft', 0)->findAll();
+    }
+
+
+
 }
